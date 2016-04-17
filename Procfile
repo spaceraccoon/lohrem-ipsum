@@ -1,1 +1,1 @@
-web: racket -l lohrem-ipsum/main
+web: racket -l lohrem-ipsum/server
