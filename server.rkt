@@ -1,8 +1,14 @@
-#lang racket
+#lang web-server/insta
 
-; configuring for web server
-(require web-server/servlet
-         web-server/servlet-env)
+; start: request -> response
+; Consumes a request, and produces a page that displays all of the
+; web content.
+(define (start request)
+  (response/xexpr
+   `(html (head (title "Lohrem Ipsum"))
+          (body (h1 "Lohrem Ipsum")
+                (div ((class "output"))
+                     ,@(render-paragraphs 3))))))
 
 ; render-paragraphs: paragraphs -> xexpr
 ; Based on number of paragraphs requested, produces a list of xexpr fragments of paragraphs.
@@ -52,27 +58,5 @@
    "liao"
    "liddat"
    "blur"
+   "siao"
    ))
-
-; Configuring for herokuapp
-; See http://lexi-lambda.github.io/blog/2015/08/22/deploying-racket-applications-on-heroku/
-(define port (if (getenv "PORT")
-                 (string->number (getenv "PORT"))
-                 8080))
-
-; start: request -> response
-; Consumes a request, and produces a page that displays all of the
-; web content.
-(define (start request)
-  (response/xexpr
-   `(html (head (title "Lohrem Ipsum"))
-          (body (h1 "Lohrem Ipsum")
-                (div ((class "output"))
-                     ,@(render-paragraphs 3))))))
-
-; start servlet
-(serve/servlet start
-               #:servlet-path "/"
-               #:listen-ip #f
-               #:port port
-               #:command-line? #t)
