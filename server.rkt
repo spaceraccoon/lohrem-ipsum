@@ -31,11 +31,23 @@
         (string-append sentence " " (generate-paragraph (- n 1))))))
 
 ; Generates a sentence based on the given number of words.
-; Words chosen at random from the dictionary
+; Words chosen at random from the dictionary.
 (define (generate-sentence n lst)
   (if (= n 1)
       (string-append (list-ref lst (random (length lst))) ".")
       (string-append (list-ref lst (random (length lst))) " " (generate-sentence (- n 1) lst))))
+
+; render-paragraphs: words -> xexpr
+; Based on number of words requested, produces a list of xexpr fragments of words.
+(define (render-words n)
+  (list `(p ,(generate-words n))))
+
+; Recursively selects for the right number of words in sentences.
+(define (generate-words n)
+  (let ([current-length (random 5 10)])
+    (if (<= n 10)
+        (capitalize (generate-sentence n singlish-dictionary))
+        (string-append (capitalize (generate-sentence current-length singlish-dictionary)) " " (generate-words (- n current-length))))))
 
 ; Singlish dictionary as a list of a strings
 (define singlish-dictionary
@@ -45,13 +57,30 @@
    "leh"
    "walao"
    "sian"
-   "aiyo"
-   "bodoh"
    "kambing"
    "sayang"
    "liao"
    "liddat"
+   "siao"
+   "abuden"
+   "abit"
+   "action"
+   "agak-agak"
+   "ahbeng"
+   "ahlian"
+   "aiyo"
+   "alamak"
+   "angmoh"
+   "arrow"
+   "atas"
+   "auntie"
+   "belanja"
    "blur"
+   "bodoh"
+   "bochup"
+   "bojio"
+   "boliao"
+   "bopian"   
    ))
 
 ; Configuring for herokuapp
@@ -64,11 +93,49 @@
 ; Consumes a request, and produces a page that displays all of the
 ; web content.
 (define (start request)
+  (define output
+    (cond
+      [(can-parse-input? (request-bindings request))
+           (parse-input (request-bindings request))]
+      [else '(`(p ,"Generate 1-100 paragraphs or 1-25000 words."))]))
+  (render-page output request))
+ 
+ 
+; can-parse-post?: bindings -> boolean
+; Produces true if bindings contains values for 'title and 'body.
+; Checks if bindings are correct input and format
+(define (can-parse-input? bindings)
+  (and (exists-binding? 'type bindings)
+       (exists-binding? 'length bindings)
+       (exact-positive-integer? (string->number (extract-binding/single 'length bindings)))
+       (or (and
+            (equal? (extract-binding/single 'type bindings) "paragraph")
+            (<= (string->number (extract-binding/single 'length bindings)) 100))
+           (and
+            (equal? (extract-binding/single 'type bindings) "word")
+            (<= (string->number (extract-binding/single 'length bindings)) 25000)))))
+ 
+; parse-post: bindings -> post
+; Consumes a bindings, and produces a post out of the bindings.
+(define (parse-input bindings)
+  (if (equal? (extract-binding/single 'type bindings) "paragraph")
+      (render-paragraphs (string->number (extract-binding/single 'length bindings)))
+      (render-words (string->number (extract-binding/single 'length bindings)))))
+ 
+; render-page: output request -> response
+(define (render-page output request)
   (response/xexpr
    `(html (head (title "Lohrem Ipsum"))
           (body (h1 "Lohrem Ipsum")
+                (div ((class "input"))
+                     (form ((id "parameters"))
+                      (input ((name "length")))
+                      (select ((form "parameters") (name "type"))
+                             (option ((value "paragraph")) "Paragraphs")
+                             (option ((value "word")) "Words"))
+                      (input ((type "submit") (value "Generate"))))
                 (div ((class "output"))
-                     ,@(render-paragraphs 3))))))
+                     ,@output))))))
 
 ; start servlet
 (serve/servlet start
