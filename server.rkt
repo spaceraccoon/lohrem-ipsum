@@ -187,7 +187,7 @@
   (response/xexpr
    `(html (head (title "Lohrem Ipsum")
                 (link ((rel "stylesheet")
-                       (href "/htdocs/stylesheet.css")
+                       (href "/stylesheet.css")
                        (type "text/css"))))
           (body (div ((class "container"))
                      (div ((class "wrapper"))
