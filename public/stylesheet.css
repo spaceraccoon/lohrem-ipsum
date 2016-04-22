@@ -3,9 +3,7 @@ body {
   margin-right: 10%;
   color: #000000;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-repeat: no-repeat;
-  background-position: top right;
-  background-size: cover;
+  background-image:url(https://s3.amazonaws.com/lohrem-ipsum/wov.png);
 }
 
 img {
