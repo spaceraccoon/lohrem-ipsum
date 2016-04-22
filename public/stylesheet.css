@@ -2,10 +2,10 @@ body {
   margin-left: 10%;
   margin-right: 10%;
   color: #000000;
-
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-repeat: no-repeat;
-  	background-position: top right;
-    background-size: cover;
+  background-position: top right;
+  background-size: cover;
 }
 
 img {
@@ -14,24 +14,24 @@ img {
 }
 
 p { font-family: sans-serif }
-h1 { color: green }
+h1 { color: #336699 }
 h2 { font-size: small }
 div.container {
-    background-image:url(merlion.png);
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      margin: auto;
-      width: 1200px;
-      height: 710px;
+  margin: 0 auto;
+  background-image:url(https://s3.amazonaws.com/lohrem-ipsum/merlion.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: auto;
+  width: 1200px;
+  height: 710px;
 }
 
 div.wrapper {
-      width: 600px;
-
-float: right;
-background: none;
-margin-top: 300px;
-margin-right: 120px;
+  width: 600px;
+  float: right;
+  background: none;
+  margin-top: 150px;
+  margin-right: 120px;
 }
 
 div.input {
@@ -43,5 +43,15 @@ div.output {
   height: 300px;
   text-align: left;
   overflow-y: scroll;
+}
 
+div.header {
+  float: right;
+  background: none;
+  margin-top: 50px;
+  margin-right: 280px;
+}
+
+div.footer {
+  text-align: center;
 }
