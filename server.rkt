@@ -203,7 +203,7 @@
                 (div ((class "output"))
                      ,@output)))
                 (div ((class "footer"))
-                     (p "A Racket/Scheme webapp coded by "(a ((href "http://limzhiweieugene.github.io/")) "Eugene Lim")". Image by "(a ((href "http://lemongraphic.sg/")) "Lemongraphic")"."))))))
+                     (p "A Racket/Scheme webapp coded by "(a ((href "http://limzhiweieugene.github.io/")) "Eugene Lim")". Image by "(a ((href "http://lemongraphic.sg/")) "Lemongraphic")". Background texture by "(a ((href "http://flashboard.pl/")) "Michal")"."))))))
 
 ; start servlet
 (serve/servlet start
