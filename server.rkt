@@ -183,7 +183,7 @@
           (body (div ((class "container"))
                      (div ((class "header"))
                           (h1 "Lohrem Ipsum")
-                          (p "A Singlish Lorem Ipsum genderator coded in Racket/Scheme."))
+                          (p "A Singlish Lorem Ipsum generator coded in Racket/Scheme."))
                      (div ((class "wrapper"))
                 (div ((class "input"))
                      (form ((id "parameters"))
