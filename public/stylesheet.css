@@ -1,0 +1,47 @@
+body {
+  margin-left: 10%;
+  margin-right: 10%;
+  color: #000000;
+
+  background-repeat: no-repeat;
+  	background-position: top right;
+    background-size: cover;
+}
+
+img {
+   width: 100%;
+   height: auto;
+}
+
+p { font-family: sans-serif }
+h1 { color: green }
+h2 { font-size: small }
+div.container {
+    background-image:url(merlion.png);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      margin: auto;
+      width: 1200px;
+      height: 710px;
+}
+
+div.wrapper {
+      width: 600px;
+
+float: right;
+background: none;
+margin-top: 300px;
+margin-right: 120px;
+}
+
+div.input {
+  text-align: center;
+}
+
+div.output {
+  width: max;
+  height: 300px;
+  text-align: left;
+  overflow-y: scroll;
+
+}
