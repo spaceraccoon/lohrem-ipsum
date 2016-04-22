@@ -1,8 +1,9 @@
-#lang racket
+#lang web-server/insta
 
 ; configuring for web server
 (require web-server/servlet
-         web-server/servlet-env)
+         web-server/servlet-env
+         web-server/templates)
 
 ; render-paragraphs: paragraphs -> xexpr
 ; Based on number of paragraphs requested, produces a list of xexpr fragments of paragraphs.
@@ -52,16 +53,6 @@
 ; Singlish dictionary as a list of a strings
 (define singlish-dictionary
   (list
-   "lor"
-   "lah"
-   "leh"
-   "walao"
-   "sian"
-   "kambing"
-   "sayang"
-   "liao"
-   "liddat"
-   "siao"
    "abuden"
    "abit"
    "action"
@@ -80,7 +71,76 @@
    "bochup"
    "bojio"
    "boliao"
-   "bopian"   
+   "bopian"
+   "chao"
+   "charbor"
+   "cheebai"
+   "chim"
+   "chiobu"
+   "chiong"
+   "chope"
+   "dey"
+   "dulan"
+   "echerly"
+   "encik"
+   "gabra"
+   "gahmen"
+   "gahrang"
+   "gehkiang"
+   "goondu"
+   "gostan"
+   "haolian"
+   "heng"
+   "horlan"
+   "jiak"
+   "jialat"
+   "kaypoh"
+   "kayu"
+   "kena"
+   "kiasu"
+   "kiasi"
+   "kilat"
+   "kopi"
+   "lah"
+   "leh"
+   "lepak"
+   "lor"
+   "loh"
+   "macam"
+   "makan"
+   "malu"
+   "meh"
+   "mug"
+   "nia"
+   "obiang"
+   "orh"
+   "paikia"
+   "paktor"
+   "rabak"
+   "sei"
+   "sekali"
+   "shiok"
+   "sia"
+   "siam"
+   "siao"
+   "sibeh"
+   "simi"
+   "sotong"
+   "stun"
+   "suay"
+   "sui"
+   "swaku"
+   "tahan"
+   "tapau"
+   "taupok"
+   "teh"
+   "tekan"
+   "ulu"
+   "walao"
+   "wapiang"
+   "waseh"
+   "yandao"
+   "zai"
    ))
 
 ; Configuring for herokuapp
@@ -97,7 +157,7 @@
     (cond
       [(can-parse-input? (request-bindings request))
            (parse-input (request-bindings request))]
-      [else '(`(p ,"Generate 1-100 paragraphs or 1-25000 words."))]))
+      [else '(`(p ,"Don't play play, I can make 200 paragraphs or 50000 words!"))]))
   (render-page output request))
  
  
@@ -110,10 +170,10 @@
        (exact-positive-integer? (string->number (extract-binding/single 'length bindings)))
        (or (and
             (equal? (extract-binding/single 'type bindings) "paragraph")
-            (<= (string->number (extract-binding/single 'length bindings)) 100))
+            (<= (string->number (extract-binding/single 'length bindings)) 200))
            (and
             (equal? (extract-binding/single 'type bindings) "word")
-            (<= (string->number (extract-binding/single 'length bindings)) 25000)))))
+            (<= (string->number (extract-binding/single 'length bindings)) 50000)))))
  
 ; parse-post: bindings -> post
 ; Consumes a bindings, and produces a post out of the bindings.
@@ -125,17 +185,23 @@
 ; render-page: output request -> response
 (define (render-page output request)
   (response/xexpr
-   `(html (head (title "Lohrem Ipsum"))
-          (body (h1 "Lohrem Ipsum")
+   `(html (head (title "Lohrem Ipsum")
+                (link ((rel "stylesheet")
+                       (href "/htdocs/stylesheet.css")
+                       (type "text/css"))))
+          (body (div ((class "container"))
+                     (div ((class "wrapper"))
                 (div ((class "input"))
                      (form ((id "parameters"))
                       (input ((name "length")))
                       (select ((form "parameters") (name "type"))
                              (option ((value "paragraph")) "Paragraphs")
                              (option ((value "word")) "Words"))
-                      (input ((type "submit") (value "Generate"))))
+                      (input ((type "submit") (value "Generate")))))
                 (div ((class "output"))
-                     ,@output))))))
+                     ,@output)))))))
+
+(static-files-path "public")
 
 ; start servlet
 (serve/servlet start
