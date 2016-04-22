@@ -1,9 +1,8 @@
-#lang web-server/insta
+#lang racket
 
 ; configuring for web server
 (require web-server/servlet
-         web-server/servlet-env
-         web-server/templates)
+         web-server/servlet-env)
 
 ; render-paragraphs: paragraphs -> xexpr
 ; Based on number of paragraphs requested, produces a list of xexpr fragments of paragraphs.
@@ -187,9 +186,12 @@
   (response/xexpr
    `(html (head (title "Lohrem Ipsum")
                 (link ((rel "stylesheet")
-                       (href "/stylesheet.css")
+                       (href "https://s3.amazonaws.com/lohrem-ipsum/stylesheet.css")
                        (type "text/css"))))
           (body (div ((class "container"))
+                     (div ((class "header"))
+                          (h1 "Lohrem Ipsum")
+                          (p "A Singlish Lorem Ipsum genderator coded in Racket/Scheme."))
                      (div ((class "wrapper"))
                 (div ((class "input"))
                      (form ((id "parameters"))
@@ -199,9 +201,9 @@
                              (option ((value "word")) "Words"))
                       (input ((type "submit") (value "Generate")))))
                 (div ((class "output"))
-                     ,@output)))))))
-
-(static-files-path "public")
+                     ,@output)))
+                (div ((class "footer"))
+                     (p "A Racket/Scheme webapp coded by "(a ((href "http://limzhiweieugene.github.io/")) "Eugene Lim")". Image by "(a ((href "http://lemongraphic.sg/")) "Lemongraphic")"."))))))
 
 ; start servlet
 (serve/servlet start
